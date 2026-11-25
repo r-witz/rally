@@ -18,7 +18,7 @@ func TestRallyAllocations(t *testing.T) {
 			t.Fatalf("%s: status %d: %s", s.name, w.status, w.body.String())
 		}
 		if got != want[s.name] {
-			t.Errorf("%s: %v allocations per request, want %v (README.md and docs/DESIGN.md quote these numbers)", s.name, got, want[s.name])
+			t.Errorf("%s: %v allocations per request, want %v (docs/BENCHMARKS.md quotes these numbers)", s.name, got, want[s.name])
 		}
 	}
 }
