@@ -1,0 +1,25 @@
+name: Feature request
+description: Something rally cannot do today.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: rally stays small on purpose. A feature is weighed by how many users need it and what it costs to maintain, so the problem matters more than the solution.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What you are trying to do, and what stops you today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How it could look in your code. Link the specification or convention it follows, if any.
+      render: go
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Workaround
+      description: What you do today instead, if anything.
