@@ -31,3 +31,7 @@ cd tests/bench
 for i in $(seq 10); do taskset -c 0-11 go test -run '^$' -bench Sequential -benchmem -count 1; done
 for i in 1 2 3; do BENCH_LOAD=1 go test -run TestLoad -v; done   # Linux (taskset); BENCH_SERVER_CPUS, BENCH_CLIENT_CPUS, BENCH_CONNS, BENCH_DURATION
 ```
+
+## Why no routing benchmark
+
+Gin and others publish the [Go HTTP routing benchmark](https://github.com/gin-gonic/go-http-routing-benchmark): 203 GitHub API routes, each answered by an empty handler. It measures how fast a router finds the handler, and nothing else: no parameter is converted, no body is read, decoded or validated, no response is encoded. rally does not route by itself (it registers its operations on `http.ServeMux`), so that benchmark would measure the standard library, and leave out everything rally does. The benchmarks above serve whole requests instead.

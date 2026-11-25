@@ -78,30 +78,10 @@ $ curl --json '{"title": "", "tags": ["home", "home"], "priority": "urgent", "co
   "status": 422,
   "detail": "validation failed",
   "errors": [
-    {
-      "detail": "expected length >= 1",
-      "code": "minLength",
-      "in": "body",
-      "pointer": "/title"
-    },
-    {
-      "detail": "expected array items to be unique",
-      "code": "uniqueItems",
-      "in": "body",
-      "pointer": "/tags"
-    },
-    {
-      "detail": "expected value to be one of \"low, normal, high\"",
-      "code": "enum",
-      "in": "body",
-      "pointer": "/priority"
-    },
-    {
-      "detail": "unexpected property",
-      "code": "additionalProperties",
-      "in": "body",
-      "pointer": "/color"
-    }
+    {"detail": "expected length >= 1", "code": "minLength", "in": "body", "pointer": "/title"},
+    {"detail": "expected array items to be unique", "code": "uniqueItems", "in": "body", "pointer": "/tags"},
+    {"detail": "expected value to be one of \"low, normal, high\"", "code": "enum", "in": "body", "pointer": "/priority"},
+    {"detail": "unexpected property", "code": "additionalProperties", "in": "body", "pointer": "/color"}
   ]
 }
 ```
@@ -112,32 +92,11 @@ And `/openapi.json` describes exactly what the server enforces, from the same ty
 {
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "title"
-  ],
+  "required": ["title"],
   "properties": {
-    "title": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 100
-    },
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "maxItems": 5,
-      "uniqueItems": true
-    },
-    "priority": {
-      "type": "string",
-      "default": "normal",
-      "enum": [
-        "low",
-        "normal",
-        "high"
-      ]
-    }
+    "title": {"type": "string", "minLength": 1, "maxLength": 100},
+    "tags": {"type": "array", "items": {"type": "string"}, "maxItems": 5, "uniqueItems": true},
+    "priority": {"type": "string", "default": "normal", "enum": ["low", "normal", "high"]}
   }
 }
 ```
@@ -152,15 +111,16 @@ Go 1.27 or later. rally serves JSON APIs on `http.ServeMux`; what it does not do
 
 ## Performance
 
-Time per request in process, on the same endpoints, after checking that every server returns the same responses and rejects the same inputs:
+A `POST` with a validated body (Huma's own `BenchmarkFullRequest_Complex`: path and query parameters, a pattern, ranges, unique items, nested structs, a map, a timestamp), served by each framework with the same rules, after checking that all of them return the same responses and reject the same inputs:
 
-| | rally | Gin | Huma | `net/http` + `encoding/json`, no validation |
-|---|---|---|---|---|
-| Complex body | **2.16 µs** | 7.00 µs (×3.2) | 11.7 µs (×5.4) | 4.40 µs (×2.0) |
-| Small GET | **389 ns** | 1.13 µs (×2.9) | 1.32 µs (×3.4) | 600 ns (×1.5) |
-| Small POST | **625 ns** | 2.00 µs (×3.2) | 3.91 µs (×6.2) | 1.56 µs (×2.5) |
+| | Time per request | Allocations | Requests per second (TCP) |
+|---|--:|--:|--:|
+| **rally** | **2.16 µs** | **14** | **208k** |
+| Gin | 7.00 µs (×3.2) | 55 | 122k |
+| Huma | 11.7 µs (×5.4) | 88 | 85k |
+| `net/http` + `encoding/json`, no validation | 4.40 µs (×2.0) | 27 | 157k |
 
-Over TCP, rally serves 1.2 to 2.4 times Huma's requests per second. Method, machine and full results: [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
+On the smallest request (a `GET` returning a small object), the gap narrows to 1.5 to 3.4 times. Method, machine and every result: [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
 
 ## Documentation
 
