@@ -12,7 +12,7 @@ cd tests && go test ./...   # specification suites, and checks behind the benchm
 
 `tests` is a separate module, so that its dependencies never reach rally's
 users. Node.js, when installed, is the reference for regular expressions there.
-CI also runs the tests with `-race`, and each fuzzer for 60 seconds on `main`;
+CI also runs the tests with `-race`, and each fuzzer for 60 seconds;
 [docs/DESIGN.md](../docs/DESIGN.md#testing) lists the commands.
 
 ## Rules
