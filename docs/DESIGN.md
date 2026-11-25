@@ -82,7 +82,7 @@ go test -run '^$' -fuzz FuzzPattern -fuzztime 60s ./internal/pattern   # tables 
 cd tests && go test ./...                                       # spec and bench (Node, when installed, is the regex reference)
 ```
 
-Coverage of the root package is 100 % for `go test .` and `tests/spec` together (`-coverpkg`). `BenchmarkHugeNumbers` keeps 1 MiB numbers linear: `multipleOf` on a million digits takes milliseconds.
+Coverage of the root package is 100 % for `go test .` and `tests/spec` together (`-coverpkg`). `BenchmarkHugeNumbers` keeps 1 MiB numbers linear: `multipleOf` on a million digits takes milliseconds. `TestRallyAllocations` (`tests/bench`, skipped under `-race`) fails when a request allocates more or less than the numbers quoted in the README.
 
 The encoder is compared byte-for-byte with `encoding/json` (nil slices and maps aside), including 20,000 random floats and strings. Pattern tests compare with results from Node (`new RegExp(p, "u")`) and with `regexp` where the dialects agree.
 
