@@ -1,11 +1,18 @@
-# rally
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
+    <img src="docs/assets/logo.svg" alt="rally" width="320">
+  </picture>
+</h1>
 
-**Strict, fast JSON APIs for Go, with the OpenAPI document generated from your types.**
+<p align="center"><b>Strict, fast JSON APIs for Go, with the OpenAPI document generated from your types.</b></p>
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/r-witz/rally.svg)](https://pkg.go.dev/github.com/r-witz/rally)
-![Go 1.27+](https://img.shields.io/badge/go-1.27%2B-00ADD8)
-![Dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+<p align="center">
+  <a href="https://pkg.go.dev/github.com/r-witz/rally"><img src="https://pkg.go.dev/badge/github.com/r-witz/rally.svg" alt="Go Reference"></a>
+  <img src="https://img.shields.io/badge/go-1.27%2B-00ADD8" alt="Go 1.27+">
+  <img src="https://img.shields.io/badge/dependencies-none-brightgreen" alt="Dependencies: none">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT"></a>
+</p>
 
 rally turns typed Go handlers into `net/http` routes. Every request is checked against your types and tags before your handler runs, and the same types produce an OpenAPI 3.1.2 document that says exactly what the server enforces.
 
@@ -25,7 +32,7 @@ go get github.com/r-witz/rally
 - [What is rejected](#what-is-rejected) · [Errors](#errors)
 - [The OpenAPI document](#the-openapi-document)
 - [Middlewares and groups](#middlewares-and-groups) · [Recipes](#recipes)
-- [Limits](#limits) · [Benchmarks](#benchmarks) · [License](#license)
+- [Limits](#limits) · [Benchmarks](#benchmarks) · [Why "rally"](#why-rally) · [License](#license)
 
 ## Quick start
 
@@ -328,6 +335,12 @@ cd tests/bench
 for i in $(seq 10); do taskset -c 0-11 go test -run '^$' -bench Sequential -benchmem -count 1; done
 for i in 1 2 3; do BENCH_LOAD=1 go test -run TestLoad -v; done   # Linux (taskset); BENCH_SERVER_CPUS, BENCH_CLIENT_CPUS, BENCH_CONNS, BENCH_DURATION
 ```
+
+## Why "rally"
+
+In a rally, the route is set in advance and the crew follows it exactly, as fast as they can; leaving the road ends the run. rally does the same for your API: your Go types are the pace notes, read once at startup, and every request must follow them to the letter, in a single pass, at full speed. A request that leaves the route is rejected, with every place it went off (`/items/0/name`).
+
+The logo is the name drawn as a stage route; the red dot is the car.
 
 ## Credits
 
