@@ -1,7 +1,7 @@
-<h1 align="center">
+<p align="center">
   <img src="docs/assets/logo.svg#gh-light-mode-only" alt="rally" width="320">
   <nostyle><img src="docs/assets/logo-dark.svg#gh-dark-mode-only" alt="rally" width="320"></nostyle>
-</h1>
+</p>
 
 <p align="center"><b>Strict, fast JSON APIs for Go, with the OpenAPI document generated from your types.</b></p>
 
@@ -14,8 +14,8 @@
 
 rally turns typed Go handlers into `net/http` routes. Every request is checked against your Go types before your handler runs, and the same types generate the OpenAPI document, so validation and documentation never drift apart.
 
+- **Fast.** In process, about 3 times faster than Gin, 3 to 6 times faster than Huma, and even faster than plain `encoding/json` without any validation ([benchmarks](#performance)).
 - **Strict.** Bad requests never reach your handler. Unknown fields, duplicate keys, wrong types and broken rules are rejected, with every problem listed and located.
-- **Fast.** 3 to 6 times faster than Huma, and faster than plain `encoding/json` without any validation ([benchmarks](#performance)).
 - **Documented.** An OpenAPI 3.1 document and a reference page, generated from your types, ready for client generators.
 - **Small.** Plain `net/http`, no dependencies, no code generation step.
 
@@ -129,7 +129,7 @@ On the smallest request (a `GET` returning a small object), the gap narrows to 1
 - **[Specification profile](docs/PROFILE.md)**: how rally applies JSON, JSON Schema, RFC 3339, HTTP and OpenAPI, row by row, each with the test that checks it.
 - **[Contributing](.github/CONTRIBUTING.md)** and **[design notes](docs/DESIGN.md)**.
 
-## Why "rally"
+## Why the name
 
 In a rally, the route is set in advance and the crew follows it exactly, as fast as they can; leaving the road ends the run. rally does the same for your API: your Go types are the pace notes, read once at startup, and every request must follow them to the letter, in a single pass, at full speed. A request that leaves the route is rejected, with every place it went off (`/items/0/name`).
 
