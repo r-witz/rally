@@ -1,8 +1,6 @@
 <h1 align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
-    <img src="docs/assets/logo.svg" alt="rally" width="320">
-  </picture>
+  <a href="docs/assets/logo.svg#gh-light-mode-only"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg"><img src="docs/assets/logo.svg" alt="rally" width="320"></picture></a>
+  <nostyle><img src="docs/assets/logo-dark.svg#gh-dark-mode-only" alt="rally" width="320"></nostyle>
 </h1>
 
 <p align="center"><b>Strict, fast JSON APIs for Go, with the OpenAPI document generated from your types.</b></p>
@@ -340,7 +338,7 @@ for i in 1 2 3; do BENCH_LOAD=1 go test -run TestLoad -v; done   # Linux (taskse
 
 In a rally, the route is set in advance and the crew follows it exactly, as fast as they can; leaving the road ends the run. rally does the same for your API: your Go types are the pace notes, read once at startup, and every request must follow them to the letter, in a single pass, at full speed. A request that leaves the route is rejected, with every place it went off (`/items/0/name`).
 
-The logo is the name drawn as a stage route; the red dot is the car.
+The logo is the name drawn as a stage route, from the start (the ring) to the car at the finish (the red dot).
 
 ## Credits
 
