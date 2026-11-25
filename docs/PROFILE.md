@@ -14,7 +14,7 @@ This file is the specification of rally: every behaviour visible to a client or 
 | **A** | Valid per the reference, but the Go type cannot hold the value: rejected ("option A"). Shown in the document where JSON Schema can express it, and listed in the allow-list of the document-against-behaviour test otherwise. |
 | **P** | rally policy, not a wire behaviour (registration checks, limits). |
 
-**Status**: ✅ conforms, checked by the test named in the row; 📋 planned, specified but not built yet.
+**Status**: ✅ conforms, checked by the test named in the row.
 
 **References.** RFC 8259 (JSON), RFC 7493 (I-JSON), RFC 3339 (date-time), RFC 3986 (URI), RFC 9110 (HTTP semantics), RFC 9457 (problem details), RFC 6901 (JSON Pointer), RFC 6839 (+json), RFC 9562 (UUID), RFC 10008 (QUERY), [JSON Schema 2020-12](https://json-schema.org/specification-links#2020-12) Core and Validation, [OpenAPI 3.2.1](https://spec.openapis.org/oas/v3.2.1.html) and [3.1.2](https://spec.openapis.org/oas/v3.1.2.html), [WHATWG URL](https://url.spec.whatwg.org/#urlencoded-parsing). RFC texts: `https://www.rfc-editor.org/rfc/rfcNNNN`.
 
@@ -49,7 +49,7 @@ This file is the specification of rally: every behaviour visible to a client or 
 | 2.5 | Rule tags accept integers written with a zero fraction (`maxLength:"2.0"`). | JSON Schema Validation §6.3.1 (non-negative integer, by §6.1.1) | R | `TestJSONSchemaSuite` (`maxLength.json`, `minLength.json`) | ✅ |
 | 2.6 | `exclusiveMinimum` and `exclusiveMaximum` are numbers, compared exactly like `minimum` and `maximum`. | JSON Schema Validation §6.2.3, §6.2.5 | R | `TestJSONSchemaSuite`, `TestExclusiveBoundsAndMultipleOf` | ✅ |
 | 2.7 | `multipleOf` (greater than 0) holds when the division gives an integer, computed exactly: `0.0075` is a multiple of `0.0001`, `1e308` of `0.5`. | JSON Schema Validation §6.2.1 | R | `TestJSONSchemaSuite` (`multipleOf.json`), `TestMultipleOf`, `FuzzDecimal`, `BenchmarkHugeNumbers` | ✅ |
-| 2.8 | `uniqueItems` on a list of floats compares the float64 values: two distinct decimals that round to the same float64 (`0.1` and `0.10000000000000000001`) count as equal and the list is rejected. | JSON Schema Validation §6.4.3 (distinct numbers); the Go type cannot hold the difference | A | `TestUniqueFloats` | 📋 planned (the behaviour is in place; its test is not written) |
+| 2.8 | `uniqueItems` on a list of floats compares the float64 values: two distinct decimals that round to the same float64 (`0.1` and `0.10000000000000000001`) count as equal and the list is rejected. | JSON Schema Validation §6.4.3 (distinct numbers); the Go type cannot hold the difference | A | `TestRules` | ✅ |
 
 ## 3. Strings and formats
 
