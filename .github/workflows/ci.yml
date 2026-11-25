@@ -70,7 +70,6 @@ jobs:
           go test -run TestRallyAllocations ./bench
 
   fuzz:
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
