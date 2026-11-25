@@ -1,6 +1,6 @@
 # Design
 
-How rally works, for contributors. The [README](../README.md) is the user documentation.
+How rally works, for contributors. The [README](../README.md) and the [guide](GUIDE.md) are the user documentation.
 
 ## Principles
 
@@ -82,7 +82,7 @@ go test -run '^$' -fuzz FuzzPattern -fuzztime 60s ./internal/pattern   # tables 
 cd tests && go test ./...                                       # spec and bench (Node, when installed, is the regex reference)
 ```
 
-Coverage of the root package is 100 % for `go test .` and `tests/spec` together (`-coverpkg`). `BenchmarkHugeNumbers` keeps 1 MiB numbers linear: `multipleOf` on a million digits takes milliseconds. `TestRallyAllocations` (`tests/bench`, skipped under `-race`) fails when a request allocates more or less than the numbers quoted in the README.
+Coverage of the root package is 100 % for `go test .` and `tests/spec` together (`-coverpkg`). `BenchmarkHugeNumbers` keeps 1 MiB numbers linear: `multipleOf` on a million digits takes milliseconds. `TestRallyAllocations` (`tests/bench`, skipped under `-race`) fails when a request allocates more or less than the numbers quoted in [BENCHMARKS.md](BENCHMARKS.md).
 
 The encoder is compared byte-for-byte with `encoding/json` (nil slices and maps aside), including 20,000 random floats and strings. Pattern tests compare with results from Node (`new RegExp(p, "u")`) and with `regexp` where the dialects agree.
 
@@ -101,5 +101,5 @@ The allocation counts are guarded by `TestRallyAllocations`; time is measured by
 
 - The conditions are checked and written with every figure: power profile, AC, `uptime`, the processes using CPU.
 - Two builds are compared by alternating their binaries (A B, B A…) on a pinned core, looking at medians and minimums. When the machine is not quiet, the figures are also scaled by an unchanged reference measured in the same run, and the report says the check should be redone on a quiet machine.
-- Over TCP, two builds are compared in short alternating runs of the load test (`BENCH_LOAD=1`). The README tables come from a full-suite run; figures from a solo run, from another day or from another thermal state are not compared at the few-percent level (expect about ±2 % from one day to the next).
+- Over TCP, two builds are compared in short alternating runs of the load test (`BENCH_LOAD=1`). The tables in [BENCHMARKS.md](BENCHMARKS.md) come from a full-suite run; figures from a solo run, from another day or from another thermal state are not compared at the few-percent level (expect about ±2 % from one day to the next).
 - A change is accepted with no regression beyond benchmark noise (about 3 %), and code is added for performance only for a measured gain of at least 10 % on a benchmark. A correctness fix may cost more, when the cost is measured and stated.

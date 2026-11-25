@@ -20,4 +20,4 @@ After:
 ## Checklist
 
 - [ ] Tests cover the change, and `go test ./...` passes in the root and in `tests/`.
-- [ ] If behaviour changed: `docs/PROFILE.md` and the README say so.
+- [ ] If behaviour changed: `docs/PROFILE.md` and `docs/GUIDE.md` say so.
