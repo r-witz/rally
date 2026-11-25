@@ -20,6 +20,10 @@ jobs:
         run: |
           unformatted=$(gofmt -l .)
           if [ -n "$unformatted" ]; then echo "$unformatted"; exit 1; fi
+      - name: go mod tidy
+        run: |
+          go mod tidy -diff
+          cd tests && go mod tidy -diff
       - name: go vet
         run: |
           go vet ./...
@@ -33,21 +37,37 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [1.27.x, stable]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
         with:
-          go-version-file: go.mod
+          go-version: ${{ matrix.go }}
+          cache: false
+      - id: go
+        run: echo "version=$(go env GOVERSION)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: test-${{ steps.go.outputs.version }}-${{ hashFiles('**/go.sum') }}
       - uses: actions/setup-node@v7
         with:
           node-version: lts/*
       - name: rally
         run: |
-          go test -race -short -coverprofile=coverage.out ./...
+          go test -race -coverprofile=coverage.out .
           go tool cover -func=coverage.out | tail -1
+      - name: internal/pattern
+        run: go test -cover ./internal/pattern
       - name: tests/spec and tests/bench
         working-directory: tests
-        run: go test -race ./...
+        run: |
+          go test -race ./...
+          go test -run TestRallyAllocations ./bench
 
   fuzz:
     if: github.event_name == 'push'
@@ -66,4 +86,12 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
+          cache: false
+      - id: go
+        run: echo "version=$(go env GOVERSION)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/go-build
+          key: fuzz-${{ matrix.target }}-${{ steps.go.outputs.version }}-${{ github.run_id }}
+          restore-keys: fuzz-${{ matrix.target }}-${{ steps.go.outputs.version }}-
       - run: go test -run '^$' -fuzz '^${{ matrix.target }}$' -fuzztime 60s ${{ matrix.package }}
