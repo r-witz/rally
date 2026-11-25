@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="docs/assets/logo.svg#gh-light-mode-only"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg"><img src="docs/assets/logo.svg" alt="rally" width="320"></picture></a>
+  <img src="docs/assets/logo.svg#gh-light-mode-only" alt="rally" width="320">
   <nostyle><img src="docs/assets/logo-dark.svg#gh-dark-mode-only" alt="rally" width="320"></nostyle>
 </h1>
 
