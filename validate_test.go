@@ -89,6 +89,7 @@ func TestRules(t *testing.T) {
 		`{"ints":[1,2,1]}`:      "body/ints: uniqueItems: " + unique,
 		`{"flags":[true,true]}`: "body/flags: uniqueItems: " + unique,
 		`{"ratios":[0.5,0.5]}`:  "body/ratios: uniqueItems: " + unique,
+		`{"ratios":[0.1,0.10000000000000000001]}`:                 "body/ratios: uniqueItems: " + unique,
 		`{"ratios":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,0]}`: "body/ratios: uniqueItems: " + unique,
 	} {
 		_, errs, err := ourDecode[rules](t, in)

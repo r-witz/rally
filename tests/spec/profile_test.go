@@ -9,8 +9,7 @@ import (
 )
 
 // TestProfile checks docs/PROFILE.md: every row of a behaviour table names
-// at least one test, and every test named by a row that is not planned
-// exists.
+// at least one test, every named test exists, and every row conforms.
 func TestProfile(t *testing.T) {
 	profile, err := os.ReadFile("../../docs/PROFILE.md")
 	if err != nil {
@@ -44,14 +43,13 @@ func TestProfile(t *testing.T) {
 		if len(tests) == 0 {
 			t.Errorf("row %s names no test", m[1])
 		}
-		planned := strings.Contains(cells[len(cells)-1], "planned")
 		for _, test := range tests {
-			if !defined[test[1]] && !planned {
+			if !defined[test[1]] {
 				t.Errorf("row %s names %s, which does not exist", m[1], test[1])
 			}
 		}
-		if !planned && !strings.Contains(cells[len(cells)-1], "✅") {
-			t.Errorf("row %s is not marked as conforming or planned", m[1])
+		if !strings.Contains(cells[len(cells)-1], "✅") {
+			t.Errorf("row %s is not marked as conforming", m[1])
 		}
 	}
 	if rows < 60 {
